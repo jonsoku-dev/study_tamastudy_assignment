@@ -1,0 +1,37 @@
+1.클래스 생성
+	일단 Component를 계승한 클래스 TODO를 만듭니다.
+	TODO의 안에는 초기화를 시켜주는 constructor를 만듭니다.
+	초기화할 대상들은 this.state에 설정해줍니다.
+	(todos = 할일 목록 / name = textBox에 입력한 값)
+
+2.render작성
+	리액트는 render안에 작성한 소스를 html로 컴파일해줍니다.
+	JSX(Javascript XML)를 사용해서 작성합니다. 
+	현재상태 this.state를 todos 배열에 넣어줍니다.
+	화면으로 돌려줄 return 값을 만들어줍니다
+	
+		①textBox의 현재상태를 this.setState로 설정할 onInput
+		②enter키를 누르면 create버튼을 눌렀을때와 같은 효과를 재현할 onKeyPress
+		③버튼을 눌렀을때 todoList가 작성될 create버튼
+		④추가한 todoList
+		⑤todoList를 삭제할 delete버튼
+
+2.기능구현
+	①onInput
+		textBox에 입력된 값(e.target.value)을 
+		this.setState으로 name에 세팅
+
+	②addTodo
+		create버튼을 눌렀을때 발생하는 이벤트
+		todoList에 추가해줌
+		todos,와 name을 생성,this.setState로 todos를 세팅
+
+	③handleKeyPress
+		enter키를 눌렀을때 create버튼 누른효과와 같은 효과내기
+		e를 인수로 받고 e.key가 엔터키일때 todos를 세팅해줌
+
+	④removeTodo
+		todoList를 삭제할 버튼
+		this.setState에 todos를 정의.slice로 delete버튼을 누른
+		removeList의 index넘버만 빼고 정의
+		
