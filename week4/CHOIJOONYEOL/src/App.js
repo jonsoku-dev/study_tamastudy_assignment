@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import TodoListTemplate from './components/TodoListTemplate/TodoListTemplate';
 import Form from './components/Form/Form';
 import TodoItemList from './components/TodoItemList';
+// import ButtonDelete from './components/ButtonDelete';
 
 class App extends Component {
 
@@ -9,7 +10,7 @@ class App extends Component {
   state = {
     input: '',
     todos: [],
-    edit: null
+    editMode: false
   }
 
   handleChange = (e) => {
@@ -43,7 +44,7 @@ class App extends Component {
     }
   }
 
-  handleToggle = (id) => {
+  handleCheck = (id) => {
     const { todos } = this.state;
     // 파라미터로 받은 id 를 가지고 몇번째 아이템인지 찾습니다.
     const index = todos.findIndex(todo => todo.id === id);
@@ -62,6 +63,10 @@ class App extends Component {
     });
   }
 
+  handleEdit = (id) => {
+    this.setState({ editMode: true });
+  }
+
   handleRemove = (id) => {
     const { todos } = this.state;
     this.setState({
@@ -69,9 +74,9 @@ class App extends Component {
     });
   }
 
-  handleEdit = (id) => {
+  handleConfirm = (id) => {
     const { todos } = this.state;
-    // this.setState({ edit: todos });
+
     this.setState({
       todos: todos.filter(todo => todo.id !== id)
     });
@@ -79,23 +84,26 @@ class App extends Component {
 
   render() {
     const { input, todos } = this.state;
-    const { handleChange, handleCreate, handleKeyPress, handleToggle, handleRemove, handleEdit } = this;
+    const { handleChange, handleCreate, handleKeyPress, handleCheck, handleRemove, handleEdit, handleConfirm } = this;
     return (
       <TodoListTemplate form={
         <Form
           value={input}
           onKeyPress={handleKeyPress}
           onChange={handleChange}
-          onCreate={handleCreate}>
+          onCreate={handleCreate}
+        >
         </Form>}>
         <TodoItemList
           todos={todos}
-          onToggle={handleToggle}
+          onCheck={handleCheck}
           onRemove={handleRemove}
-          onEdit={handleEdit}>
+          onEdit={handleEdit}
+          onConfirm={handleConfirm}
+        >
+        </TodoItemList >
+      </TodoListTemplate >
 
-        </TodoItemList>
-      </TodoListTemplate>
     );
   }
 }

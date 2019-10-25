@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './TodoItem/TodoItem.css';
 
+
 class TodoItemList extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -8,7 +9,8 @@ class TodoItemList extends Component {
     }
 
     render() {
-        const { todos, onToggle, onRemove, onEdit } = this.props;
+
+        const { todos, onToggle, onRemove, onEdit, onCheck } = this.props;
 
         const todoList = todos.map(({ id, text, checked }) => (
             <TodoItem
@@ -18,6 +20,7 @@ class TodoItemList extends Component {
                 onToggle={onToggle}
                 onRemove={onRemove}
                 onEdit={onEdit}
+                onCheck={onCheck}
                 key={id}
             >
             </TodoItem>
@@ -35,19 +38,11 @@ class TodoItemList extends Component {
         //     )
         //   );
 
-        if (todos !== '') {
-            return (
-                <div>
-                    {todoList}
-                </div>
-            );
-        } else if (todoList === '') {
-            return (
-                <div>
-                    no
-                </div>
-            );
-        }
+        return (
+            <div>
+                {todoList}
+            </div>
+        );
 
     }
 }
@@ -59,29 +54,40 @@ class TodoItem extends Component {
     }
 
     render() {
-        const { text, checked, id, onToggle, onRemove, onEdit } = this.props;
+        const { text, checked, id, onCheck, onRemove, onEdit } = this.props;
 
         return (
-            <div className="todo-item" onClick={() => onToggle(id)}>
+            <div className="todo-item">
 
-                <div className="remove" onClick={(e) => {
-                    e.stopPropagation(); // onToggle 이 실행되지 않도록 함
-                    onRemove(id)
+                <div className={`todo-text ${checked && 'checked'}`}>
+                    <div>{text}</div>
+                </div>
+
+                {
+                    checked && (<div className="check-mark"> Complete </div>)
                 }
-                }>delete</div>
+
+                <div className="check" onClick={() => onCheck(id)}> Check </div>
 
                 <div className="edit" onClick={(e) => {
                     e.stopPropagation(); // onToggle 이 실행되지 않도록 함
                     onEdit(id)
                 }
-                }>fix</div>
+                }> Edit </div>
 
-                <div className={`todo-text ${checked && 'checked'}`}>
-                    <div>{text}</div>
-                </div>
-                {
-                    checked && (<div className="check-mark">complete</div>)
+                <div className="remove" onClick={(e) => {
+                    e.stopPropagation(); // onToggle 이 실행되지 않도록 함
+                    onRemove(id)
                 }
+                }> Delete </div>
+
+                {/* 
+                <ButtonDelete onClick={(e) => {
+                    e.stopPropagation(); // onToggle 이 실행되지 않도록 함
+                    onRemove(id)
+                }
+                }></ButtonDelete> */}
+
             </div >
         );
     }
