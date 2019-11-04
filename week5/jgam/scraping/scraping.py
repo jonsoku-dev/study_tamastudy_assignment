@@ -1,0 +1,1 @@
+# This file enables scraping in foreground.
