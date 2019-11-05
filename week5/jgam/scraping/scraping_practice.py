@@ -13,4 +13,7 @@ from selenium import webdriver
 chromedriver = "/Users/jeonghan.gam/Downloads/chromedriver"#path of webdriver.exe
 driver = webdriver.Chrome(chromedriver)
 
-driver.get("https://brunch.co.kr/@jk-lab/18")
+driver.get("https://www.skyscanner.jp/?previousCultureSource=GEO_LOCATION&redirectedFrom=www.skyscanner.net&locale=en-US")
+
+city_input = driver.find_element_by_xpath("//*[@id=\"fsc-destination-search\"]")
+city_input.send_keys("vietnam")
