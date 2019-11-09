@@ -10,7 +10,7 @@ print(google_bs4)#Doctype is this
 
 from selenium import webdriver
 
-chromedriver = "/Users/jeonghan.gam/Downloads/chromedriver"#path of webdriver.exe
+chromedriver = "/Users/jimmygam/Downloads/chromedriver"#path of webdriver.exe
 driver = webdriver.Chrome(chromedriver)
 
 driver.get("https://www.skyscanner.jp/?previousCultureSource=GEO_LOCATION&redirectedFrom=www.skyscanner.net&locale=en-US")
