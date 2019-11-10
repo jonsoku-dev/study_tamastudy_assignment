@@ -1,0 +1,3 @@
+[submodule "week6/ruri/todo_rails"]
+	path = week6/ruri/todo_rails
+	url = https://github.com/ruridev/todo_rails.git
