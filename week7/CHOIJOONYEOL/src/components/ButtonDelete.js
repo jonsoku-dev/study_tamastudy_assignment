@@ -1,13 +1,17 @@
 import React from 'react';
+// import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import './TodoItem/TodoItem.css';
 
 export default function AlertDialog() {
     const [open, setOpen] = React.useState(false);
+
+    // const { id, onRemove } = this.props;
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -17,20 +21,28 @@ export default function AlertDialog() {
         setOpen(false);
     };
 
-    const handleRemove = (id) => {
-        const { todos } = this.state;
-        this.setState({
-            todos: todos.filter(todo => todo.id !== id)
-        });
-    };
-
-    const { id, onRemove } = this.props;
+    // const handleRemove = (id) => {
+    //     onRemove(id);
+    // };
 
     return (
         <div>
-            <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+
+            {/* <div className="remove" onClick={(e) => {
+                e.stopPropagation(); // onToggle 이 실행되지 않도록 함
+                onRemove(id)
+            }
+            }> Delete </div> */}
+
+            {/* <div className="remove" onClick={(e) => {
+                e.stopPropagation(); // onToggle 이 실행되지 않도록 함
+                onRemove(id)
+            }
+            }>11</div> */}
+
+            <div className="remove" variant="outlined" color="primary" onClick={handleClickOpen}>
                 Delete
-        </Button>
+            </div>
             <Dialog
                 open={open}
                 onClose={handleClose}
@@ -47,7 +59,7 @@ export default function AlertDialog() {
                     <Button onClick={handleClose} color="primary">
                         No
             </Button>
-                    <Button onClick={handleClose} onClick={onRemove(id)} color="primary" autoFocus>
+                    <Button onClick={handleClose} color="primary" autoFocus>
                         YES
             </Button>
                 </DialogActions>

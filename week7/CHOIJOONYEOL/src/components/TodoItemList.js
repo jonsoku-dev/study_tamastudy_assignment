@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import './TodoItem/TodoItem.css';
-
+// import { Button } from 'react-bootstrap'
+// import Dialog from 'react-bootstrap-dialog'
+// import ButtonDelete from './ButtonDelete';
 
 class TodoItemList extends Component {
 
@@ -12,20 +14,20 @@ class TodoItemList extends Component {
 
         const { todos, onToggle, onRemove, onEdit, onCheck } = this.props;
 
-        const todoList = todos.map(({ id, text, checked }) => (
-            <TodoItem
-                id={id}
-                text={text}
-                checked={checked}
-                onToggle={onToggle}
-                onRemove={onRemove}
-                onEdit={onEdit}
-                onCheck={onCheck}
-                key={id}
-            >
-            </TodoItem>
-        )
-        );
+        const todoList =
+            todos.map(({ id, todo, checked }) => (
+                <TodoItem
+                    id={id}
+                    todo={todo}
+                    checked={checked}
+                    onToggle={onToggle}
+                    onRemove={onRemove}
+                    onEdit={onEdit}
+                    onCheck={onCheck}
+                    key={id}
+                    todos={todos}
+                />
+            ));
 
         // const todoList = todos.map(
         //     (todo) => (
@@ -43,7 +45,6 @@ class TodoItemList extends Component {
                 {todoList}
             </div>
         );
-
     }
 }
 
@@ -54,13 +55,14 @@ class TodoItem extends Component {
     }
 
     render() {
-        const { text, checked, id, onCheck, onRemove, onEdit } = this.props;
+        //const { text, checked, id, onCheck, onEdit } = this.props;
+        const { checked, id, onCheck, onEdit, onRemove, todo } = this.props;
 
         return (
             <div className="todo-item">
 
                 <div className={`todo-text ${checked && 'checked'}`}>
-                    <div>{text}</div>
+                    <div>{todo}</div>
                 </div>
 
                 {
@@ -75,19 +77,11 @@ class TodoItem extends Component {
                 }
                 }> Edit </div>
 
-                <div className="remove" onClick={(e) => {
-                    e.stopPropagation(); // onToggle 이 실행되지 않도록 함
-                    onRemove(id)
-                }
-                }> Delete </div>
-
-                {/* 
-                <ButtonDelete onClick={(e) => {
-                    e.stopPropagation(); // onToggle 이 실행되지 않도록 함
-                    onRemove(id)
-                }
-                }></ButtonDelete> */}
-
+                <div className="remove" onClick=
+                    {() => {
+                        if (window.confirm('You want to delete this list?')) onRemove(id)
+                    }}> Delete
+                </div>
             </div >
         );
     }
