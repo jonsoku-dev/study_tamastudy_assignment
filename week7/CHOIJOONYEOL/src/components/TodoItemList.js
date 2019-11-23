@@ -12,7 +12,7 @@ class TodoItemList extends Component {
 
     render() {
 
-        const { todos, onToggle, onRemove, onEdit, onCheck } = this.props;
+        const { todos, onToggle, onRemove, onEdit, onEditSave, onEditCancel, onCheck } = this.props;
 
         const todoList =
             todos.map(({ id, todo, checked }) => (
@@ -23,6 +23,8 @@ class TodoItemList extends Component {
                     onToggle={onToggle}
                     onRemove={onRemove}
                     onEdit={onEdit}
+                    onEditCancel={onEditCancel}
+                    onEditSave={onEditSave}
                     onCheck={onCheck}
                     key={id}
                     todos={todos}
@@ -50,39 +52,62 @@ class TodoItemList extends Component {
 
 class TodoItem extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = { isEditing: false }
+    }
+
     shouldComponentUpdate(nextProps, nextState) {
         return this.props.checked !== nextProps.checked;
     }
 
+    onEdit1 = (id) => {
+        this.setState({ isEditing: true });
+        // alert("2");
+    }
+
     render() {
+
         //const { text, checked, id, onCheck, onEdit } = this.props;
         const { checked, id, onCheck, onEdit, onRemove, todo } = this.props;
 
+        const viewStyle = {};
+        const editStyle = {};
+
+        if (this.state.isEditing) {
+            viewStyle.display = 'none';
+        }
+        else {
+            editStyle.display = 'none';
+        }
+
         return (
-            <div className="todo-item">
+            <div>
 
-                <div className={`todo-text ${checked && 'checked'}`}>
-                    <div>{todo}</div>
+                <div className="todo-item" style={viewStyle}>
+                    <div className={`todo-text ${checked && 'checked'}`}>
+                        <div>{todo}</div>
+                    </div>
+                    {checked && (<div className="check-mark"> Complete </div>)}
+                    <div className="check" onClick={() => onCheck(id)}> Check </div>
+                    <div className="edit" onClick={() => onEdit(id)}> Edit </div>
+                    {/* <div className="edit" onClick={() => onEdit()}> Edit </div> */}
+                    {/* <div className="edit" onClick={this.onEdit1}> Edit </div> */}
+                    <div className="remove" onClick=
+                        {() => {
+                            if (window.confirm('You want to delete this list?')) onRemove(id)
+                        }}> Delete
+                    </div>
                 </div>
 
-                {
-                    checked && (<div className="check-mark"> Complete </div>)
-                }
-
-                <div className="check" onClick={() => onCheck(id)}> Check </div>
-
-                <div className="edit" onClick={(e) => {
-                    e.stopPropagation(); // onToggle 이 실행되지 않도록 함
-                    onEdit(id)
-                }
-                }> Edit </div>
-
-                <div className="remove" onClick=
-                    {() => {
-                        if (window.confirm('You want to delete this list?')) onRemove(id)
-                    }}> Delete
+                <div style={editStyle}>
+                    <input type="Text"
+                        // style={editStyle}
+                        defaultValue={todo}
+                    />
                 </div>
-            </div >
+
+            </div>
         );
     }
 }

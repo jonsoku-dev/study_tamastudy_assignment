@@ -20,21 +20,25 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
 const firestore = firebase.firestore();
-const settings = { timestampsInSnapshots: true };
-firestore.settings(settings);
-const timestamp = snapshot.get('created_at');
-
-const date = timestamp.toDate(); // JS Date 型が欲しい場合
-const seconds = timestamp.seconds; // 秒数が欲しい場合
 
 class App extends Component {
 
-  id = 0
-  state = {
-    input: '',
-    todos: [],
-    isEditing: false
+  constructor(props) {
+    super(props);
+    this.state = {
+      // isEditing: false,
+      input: '',
+      todos: []
+    }
   }
+
+  // id = 0
+  // state = {
+  //   input: '',
+  //   todos: [],
+  //   isEditing: false
+  // }
+
 
   componentDidMount() {
     const todos = [...this.state.todos]
@@ -66,8 +70,7 @@ class App extends Component {
 
     firestore.collection('todos').add({ todo })
       .then(r => {
-        // const todos = [...this.state.todos, { todo, id: r.id }];
-        const todos = [...this.state.todos, { todo, id: r.id }];
+        const todos = [...this.state.todos, { todo, id: r.id, date: new Date() }];
         this.setState({
           todos,
           input: ''
@@ -113,12 +116,13 @@ class App extends Component {
     };
 
     this.setState({
-      todos: nextTodos
+      todos: nextTodos,
+      isEditing: true
     });
   }
 
-  handleEdit = (id) => {
-    this.setState({ isEditing: true });
+  handleEdit = () => {
+    this.setState({ isEditing: true })
   }
 
   handleEditCancel = (id) => {
@@ -126,9 +130,6 @@ class App extends Component {
   }
 
   handleEditSave = (id) => {
-    id.preventDefault();
-
-
     this.setState({ isEditing: false });
   }
 
@@ -157,7 +158,9 @@ class App extends Component {
 
   render() {
     const { input, todos } = this.state;
-    const { handleChange, handleCreate, handleKeyPress, handleCheck, handleRemove, handleEdit, handleConfirm } = this;
+    const { handleChange, handleCreate, handleKeyPress,
+      handleCheck, handleRemove, handleEdit, handleEditCancel, handleEditSave,
+      handleConfirm } = this;
 
     return (
       <TodoListTemplate form={
@@ -173,6 +176,8 @@ class App extends Component {
           onCheck={handleCheck}
           onRemove={handleRemove}
           onEdit={handleEdit}
+          onEditSave={handleEditSave}
+          onEditCancel={handleEditCancel}
           onConfirm={handleConfirm}
         >
         </TodoItemList >
