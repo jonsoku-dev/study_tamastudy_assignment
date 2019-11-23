@@ -6,6 +6,7 @@
     /* cursor: pointer; */
     transition: all 0.15s;
     user-select: none;
+    text-align: center;
 }
 
 .check:hover {
